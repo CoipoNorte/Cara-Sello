@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Cinzel:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ============================================================================
+   CARA O SELLO — sistema de diseño
+   Estética: pieza de museo sobre fondo de estudio. Carbón profundo + oro
+   litográfico. Archivo para display, Cinzel para los grabados de la moneda,
+   JetBrains Mono para estadísticas.
+   ============================================================================ */
+@theme {
+  --color-ink:   #08090B;
+  --color-coal:  #0D0F12;
+  --color-panel: #12151A;
+  --color-raise: #181C23;
+  --color-edge:  #23282F;
+  --color-edge2: #2E343D;
+  --color-fog:   #9AA1AC;
+  --color-paper: #EDEFF1;
+  --color-gold:  #D8B25A;
+  --color-goldsoft: #F2DFA6;
+  --color-golddeep: #85671F;
+
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-numi: 'Cinzel', 'Times New Roman', serif; /* grabados numismáticos */
+}
+
+html, body { height: 100%; }
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--color-gold); color: var(--color-ink); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* ---- Texto gigante del resultado: contorno litografiado en oro ---- */
+.txt-result {
+  color: rgba(216, 178, 90, 0.07);
+  -webkit-text-stroke: 2px rgba(216, 178, 90, 0.55);
+}
+
+/* ---- Moneda 3D ---- */
+.coin3d { transform-style: preserve-3d; }
+.coin-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.coin-face.back { transform: rotateY(180deg); }
+
+/* Destello que rota sobre la moneda (luz de estudio) */
+@keyframes glintspin { to { transform: rotate(360deg); } }
+.glint {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 38%,
+    rgba(255, 246, 214, 0.16) 46%,
+    rgba(255, 246, 214, 0.02) 52%,
+    transparent 60% 100%
+  );
+  mix-blend-mode: screen;
+  animation: glintspin 8s linear infinite;
+}
+
+/* Grano cinematográfico */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* Botones de icono del header */
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-edge);
+  color: var(--color-fog);
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease, transform .15s ease;
+}
+.icon-btn:hover { color: var(--color-gold); border-color: rgba(216,178,90,.45); }
+.icon-btn:active { transform: scale(.92); }
