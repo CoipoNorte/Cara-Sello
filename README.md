@@ -1,4 +1,4 @@
-# Cara o Sello · Lanzamiento de moneda animado
+# [Cara o Sello · Lanzamiento de moneda animado](https://coiponorte.github.io/Cara-Sello/)
 
 Una experiencia de una sola vista: una moneda grabada vista desde arriba sobre
 un fondo minimalista de estudio. La moneda **salta, gira en 3D y cae** mostrando
@@ -37,99 +37,6 @@ npm run build    # genera dist/ (un solo index.html autocontenido)
 
 **Controles:** clic en la moneda · `ESPACIO` / `ENTER` para lanzar ·
 icono altavoz silencia · icono circular reinicia estadísticas.
-
----
-
-## 🚀 Despliegue en GitHub Pages
-
-El proyecto usa `vite-plugin-singlefile`: **`dist/index.html` no depende de
-ningún asset externo**, así que funciona en cualquier subruta de GitHub Pages
-sin tocar `base`. Igualmente, dejamos el flujo clásico documentado.
-
-### Paso 1 · Sube el repo
-
-```bash
-git init
-git add .
-git commit -m "Cara o Sello · moneda animada"
-git branch -M main
-git remote add origin https://github.com/TU-USUARIO/cara-o-sello.git
-git push -u origin main
-```
-
-### Paso 2 · Añade gh-pages a `package.json`
-
-El paquete `gh-pages` ya está instalado. Añade **estas tres líneas** a tu
-`package.json` (campo `homepage` + scripts de despliegue):
-
-```jsonc
-{
-  "name": "cara-o-sello",
-  "homepage": "https://TU-USUARIO.github.io/cara-o-sello",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "predeploy": "npm run build",          // ← añade esto
-    "deploy": "gh-pages -d dist"           // ← y esto
-  }
-}
-```
-
-> Si `gh-pages` no aparece en `devDependencies`, instálalo:
-> `npm install -D gh-pages`
-
-### Paso 3 · Despliega
-
-```bash
-npm run deploy
-```
-
-Esto compila y publica `dist/` en la rama **`gh-pages`**. Activa Pages en
-**GitHub → Settings → Pages → Source → `gh-pages` branch / (root)** y en ~1 min:
-
-```
-https://TU-USUARIO.github.io/cara-o-sello/
-```
-
-Cada cambio posterior: `git push` + `npm run deploy` y listo.
-
-### ⚠️ Nota sobre rutas (importante si cambias la config)
-
-- Con el *single-file* actual no hace falta nada más.
-- Si algún día quitas `viteSingleFile()` del `vite.config.ts` o añades imágenes
-  en `public/`, pon en `vite.config.ts`:
-  ```ts
-  export default defineConfig({
-    base: '/cara-o-sello/',   // ← nombre EXACTO del repo, con barras
-    // …plugins
-  })
-  ```
-  y referencia los assets de `public/` con rutas relativas (`./img/…`).
-
-### Alternativa: despliegue automático con GitHub Actions
-
-Crea `.github/workflows/deploy.yml` y cada `git push` a `main` publicará solo:
-
-```yaml
-name: Deploy a GitHub Pages
-on:
-  push: { branches: [main] }
-permissions:
-  pages: write
-  id-token: write
-jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20 }
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: dist }
-      - uses: actions/deploy-pages@v4
-```
 
 ---
 
